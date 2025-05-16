@@ -109,6 +109,28 @@ button:hover {
     cursor: pointer;
     transition: transform 0.3s, background-color 0.3s;
 }
+/* 添加不匹配时的动画类 */
+.card.not-matched {
+    animation: notMatchedAnimation 1s;
+}
+
+@keyframes notMatchedAnimation {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1);
+    }
+    50% {
+        transform: scale(1);
+    }
+    75% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 
 /* 普通模式的卡片颜色 */
 .card[data-mode="normal"][data-type="symbol"] {
@@ -145,7 +167,29 @@ button:hover {
 .card.matched {
     background-color: #27ae60;
     cursor: default;
-    visibility: hidden;
+    animation: matchedAnimation 0.5s forwards;
+}
+@keyframes matchedAnimation {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    25% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    75% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
 }
 
 .game-result {

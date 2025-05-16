@@ -179,7 +179,12 @@ function checkForMatch() {
         }, 500);
     } else {
         // 匹配失败，翻回卡片
+        // 匹配失败，添加不匹配动画
+        card1.classList.add('not-matched');
+        card2.classList.add('not-matched');
         setTimeout(() => {
+            card1.classList.remove('not-matched');
+            card2.classList.remove('not-matched');
             card1.classList.remove('flipped');
             card2.classList.remove('flipped');
             selectedCards = [];
