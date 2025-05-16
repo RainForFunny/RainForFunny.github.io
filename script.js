@@ -28,7 +28,7 @@ let timer = null;
 let seconds = 0;
 let selectedCards = [];
 let matchedPairs = 0;
-let totalPairs = 8; // 我们将选择8对元素
+let totalPairs = 10; // 我们将选择8对元素
 let currentMode = 'normal'; // 'normal' 或 'hard'
 
 // DOM元素
@@ -42,6 +42,7 @@ const finalModeElement = document.getElementById('final-mode');
 const playerNameInput = document.getElementById('player-name');
 const saveScoreBtn = document.getElementById('save-score-btn');
 const leaderboardBody = document.getElementById('leaderboard-body');
+const challengeModeBtn = document.getElementById('challenge-mode-btn');
 
 // 模式选择按钮
 const normalModeBtn = document.getElementById('normal-mode-btn');
@@ -50,6 +51,7 @@ const hardModeBtn = document.getElementById('hard-mode-btn');
 // 排行榜选项卡按钮
 const normalLeaderboardBtn = document.getElementById('normal-leaderboard-btn');
 const hardLeaderboardBtn = document.getElementById('hard-leaderboard-btn');
+const challengeLeaderboardBtn = document.getElementById('challenge-leaderboard-btn');
 
 // 初始化游戏
 function initGame() {
@@ -102,7 +104,7 @@ function startGame() {
 
 // 创建游戏卡片
 function createGameCards() {
-    // 随机选择8对元素
+    // 随机选择10对元素
     const shuffledElements = [...elements].sort(() => 0.5 - Math.random()).slice(0, totalPairs);
     
     // 创建卡片数组（每对元素有两张卡片）
@@ -112,9 +114,13 @@ function createGameCards() {
             // 普通模式：符号和汉字
             cards.push({ type: 'name', value: element.name, elementId: element.symbol });
             cards.push({ type: 'symbol', value: element.symbol, elementId: element.symbol });
-        } else {
+        } else if (currentMode === 'hard') {
             // 困难模式：序号和汉字
             cards.push({ type: 'name', value: element.name, elementId: element.number.toString() });
+            cards.push({ type: 'number', value: element.number.toString(), elementId: element.number.toString() });
+        } else {
+            // 挑战模式：序号和符号
+            cards.push({ type: 'symbol', value: element.symbol, elementId: element.number.toString() });
             cards.push({ type: 'number', value: element.number.toString(), elementId: element.number.toString() });
         }
     });
@@ -196,7 +202,9 @@ function saveScore() {
     const playerName = playerNameInput.value.trim() || '匿名玩家';
     
     // 获取现有排行榜
-    const leaderboardKey = currentMode === 'normal' ? 'chemistryGameNormalLeaderboard' : 'chemistryGameHardLeaderboard';
+    const leaderboardKey = currentMode === 'normal' ? 'chemistryGameNormalLeaderboard' : 
+    currentMode === 'hard' ? 'chemistryGameHardLeaderboard' : 
+    'chemistryGameChallengeLeaderboard';
     let leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
     
     // 添加新分数
@@ -224,7 +232,9 @@ function updateLeaderboard(mode) {
     leaderboardBody.innerHTML = '';
     
     // 获取排行榜数据
-    const leaderboardKey = mode === 'normal' ? 'chemistryGameNormalLeaderboard' : 'chemistryGameHardLeaderboard';
+    const leaderboardKey = mode === 'normal' ? 'chemistryGameNormalLeaderboard' : 
+                          mode === 'hard' ? 'chemistryGameHardLeaderboard' : 
+                          'chemistryGameChallengeLeaderboard';
     const leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
     
     // 添加排行榜项
@@ -261,12 +271,15 @@ function switchGameMode(mode) {
     currentMode = mode;
     
     // 更新模式按钮状态
+    normalModeBtn.classList.remove('active');
+    hardModeBtn.classList.remove('active');
+    challengeModeBtn.classList.remove('active');
     if (mode === 'normal') {
         normalModeBtn.classList.add('active');
-        hardModeBtn.classList.remove('active');
-    } else {
-        normalModeBtn.classList.remove('active');
+    } else if (mode === 'hard') {
         hardModeBtn.classList.add('active');
+    } else {
+        challengeModeBtn.classList.add('active');
     }
     
     // 重置游戏
@@ -276,12 +289,16 @@ function switchGameMode(mode) {
 // 切换排行榜显示
 function switchLeaderboard(mode) {
     // 更新排行榜选项卡状态
+    normalLeaderboardBtn.classList.remove('active');
+    hardLeaderboardBtn.classList.remove('active');
+    challengeLeaderboardBtn.classList.remove('active');
+    
     if (mode === 'normal') {
         normalLeaderboardBtn.classList.add('active');
-        hardLeaderboardBtn.classList.remove('active');
-    } else {
-        normalLeaderboardBtn.classList.remove('active');
+    } else if (mode === 'hard') {
         hardLeaderboardBtn.classList.add('active');
+    } else {
+        challengeLeaderboardBtn.classList.add('active');
     }
     
     // 更新排行榜显示
@@ -292,6 +309,7 @@ function switchLeaderboard(mode) {
 startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', initGame);
 saveScoreBtn.addEventListener('click', saveScore);
+challengeModeBtn.addEventListener('click', () => switchGameMode('challenge'));
 
 // 模式切换事件
 normalModeBtn.addEventListener('click', () => switchGameMode('normal'));
@@ -300,6 +318,8 @@ hardModeBtn.addEventListener('click', () => switchGameMode('hard'));
 // 排行榜选项卡事件
 normalLeaderboardBtn.addEventListener('click', () => switchLeaderboard('normal'));
 hardLeaderboardBtn.addEventListener('click', () => switchLeaderboard('hard'));
+challengeModeBtn.addEventListener('click', () => switchGameMode('challenge'));
+challengeModeBtn.addEventListener('click', () => switchLeaderboard('challenge'));
 
 // 初始化游戏
 document.addEventListener('DOMContentLoaded', () => {

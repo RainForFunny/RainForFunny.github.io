@@ -86,9 +86,13 @@ button:hover {
 
 .game-board {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
     gap: 10px;
     margin-bottom: 20px;
+}
+
+.grid-5x4 {
+  grid-template-columns: repeat(5, 1fr); /* 修改为5列 */
+  grid-template-rows: repeat(4, 1fr);    /* 修改为4行 */
 }
 
 .card {

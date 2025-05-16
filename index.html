@@ -14,6 +14,7 @@
             <span>游戏模式：</span>
             <button id="normal-mode-btn" class="mode-btn active">普通模式（符号-汉字）</button>
             <button id="hard-mode-btn" class="mode-btn">困难模式（序号-汉字）</button>
+            <button id="challenge-mode-btn" class="mode-btn">挑战模式（序号-符号）</button>
         </div>
         
         <div class="game-info">
@@ -22,7 +23,7 @@
             <button id="restart-btn" style="display: none;">重新开始</button>
         </div>
         
-        <div class="game-board" id="game-board"></div>
+        <div class="game-board grid-5x4" id="game-board"></div>
         
         <div class="game-result" id="game-result" style="display: none;">
             <h2>游戏结束!</h2>
@@ -37,6 +38,7 @@
             <div class="leaderboard-tabs">
                 <button id="normal-leaderboard-btn" class="leaderboard-tab active">普通模式</button>
                 <button id="hard-leaderboard-btn" class="leaderboard-tab">困难模式</button>
+                <button id="challenge-leaderboard-btn" class="leaderboard-tab">挑战模式</button>
             </div>
             <table>
                 <thead>
