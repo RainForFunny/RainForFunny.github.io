@@ -233,6 +233,18 @@ function saveScore() {
     initGame();
 }
 
+// 清除排行榜数据
+function clearLeaderboard() {
+    if (confirm('确定要清除所有排行榜数据吗？')) {
+        const modes = ['normal', 'hard', 'challenge'];
+        modes.forEach(mode => {
+            const leaderboardKey = `chemistryGame${mode.charAt(0).toUpperCase() + mode.slice(1)}Leaderboard`;
+            localStorage.removeItem(leaderboardKey);
+        });
+        updateLeaderboard(currentMode);
+    }
+}
+
 // 更新排行榜显示
 function updateLeaderboard(mode) {
     // 清空排行榜
@@ -278,18 +290,6 @@ function switchGameMode(mode) {
     
     currentMode = mode;
     
-    // 更新模式按钮状态
-    // normalModeBtn.classList.remove('active');
-    // hardModeBtn.classList.remove('active');
-    // challengeModeBtn.classList.remove('active');
-    // if (mode === 'normal') {
-    //     normalModeBtn.classList.add('active');
-    // } else if (mode === 'hard') {
-    //     hardModeBtn.classList.add('active');
-    // } else {
-    //     challengeModeBtn.classList.add('active');
-    // }
-    
     // 重置游戏
     initGame();
 }
@@ -319,15 +319,18 @@ restartBtn.addEventListener('click', initGame);
 saveScoreBtn.addEventListener('click', saveScore);
 gameModeSelect.addEventListener('change', (e) => switchGameMode(e.target.value));
 
-// 模式切换事件
-normalModeBtn.addEventListener('click', () => switchGameMode('normal'));
-hardModeBtn.addEventListener('click', () => switchGameMode('hard'));
-challengeModeBtn.addEventListener('click', () => switchGameMode('challenge'));
-
 // 排行榜选项卡事件
-normalLeaderboardBtn.addEventListener('click', () => switchLeaderboard('normal'));
-hardLeaderboardBtn.addEventListener('click', () => switchLeaderboard('hard'));
-challengeModeBtn.addEventListener('click', () => switchLeaderboard('challenge'));
+normalLeaderboardBtn.addEventListener('click', function() {
+    switchLeaderboard('normal');
+});
+
+hardLeaderboardBtn.addEventListener('click', function() {
+    switchLeaderboard('hard');
+});
+
+challengeLeaderboardBtn.addEventListener('click', function() {
+    switchLeaderboard('challenge');
+});
 
 // 初始化游戏
 // document.addEventListener('DOMContentLoaded', () => {
@@ -335,6 +338,26 @@ challengeModeBtn.addEventListener('click', () => switchLeaderboard('challenge'))
 //     updateLeaderboard('normal');
 // });
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('页面加载完成');
+    // 确保所有模式的排行榜数据都被初始化
+    const modes = ['normal', 'hard', 'challenge'];
+    modes.forEach(mode => {
+        const leaderboardKey = `chemistryGame${mode.charAt(0).toUpperCase() + mode.slice(1)}Leaderboard`;
+        let leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
+        // 确保数据被保存回localStorage
+        localStorage.setItem(leaderboardKey, JSON.stringify(leaderboard));
+    });
+    
+    // 添加清除排行榜按钮
+    const leaderboardContainer = document.querySelector('.leaderboard');
+    // 检查是否已经存在清除按钮，避免重复添加
+    if (!document.querySelector('.clear-btn')) {
+        const clearButton = document.createElement('button');
+        clearButton.textContent = '清除所有排行榜';
+        clearButton.classList.add('clear-btn');
+        clearButton.addEventListener('click', clearLeaderboard);
+        leaderboardContainer.appendChild(clearButton);
+    }
     initGame();
     updateLeaderboard('normal');
 });
