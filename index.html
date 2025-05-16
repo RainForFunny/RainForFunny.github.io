@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>化学元素配对游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>化学元素配对游戏</h1>
+        
+        <div class="game-mode">
+            <span>游戏模式：</span>
+            <button id="normal-mode-btn" class="mode-btn active">普通模式（符号-汉字）</button>
+            <button id="hard-mode-btn" class="mode-btn">困难模式（序号-汉字）</button>
+        </div>
+        
+        <div class="game-info">
+            <div class="timer">时间: <span id="time">0</span> 秒</div>
+            <button id="start-btn">开始游戏</button>
+            <button id="restart-btn" style="display: none;">重新开始</button>
+        </div>
+        
+        <div class="game-board" id="game-board"></div>
+        
+        <div class="game-result" id="game-result" style="display: none;">
+            <h2>游戏结束!</h2>
+            <p>游戏模式: <span id="final-mode">普通模式</span></p>
+            <p>您的用时: <span id="final-time">0</span> 秒</p>
+            <input type="text" id="player-name" placeholder="请输入您的名字" maxlength="10">
+            <button id="save-score-btn">保存成绩</button>
+        </div>
+        
+        <div class="leaderboard">
+            <h2>排行榜</h2>
+            <div class="leaderboard-tabs">
+                <button id="normal-leaderboard-btn" class="leaderboard-tab active">普通模式</button>
+                <button id="hard-leaderboard-btn" class="leaderboard-tab">困难模式</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>名字</th>
+                        <th>用时(秒)</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <!-- 排行榜数据将在这里动态生成 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
