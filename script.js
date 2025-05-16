@@ -28,7 +28,7 @@ let timer = null;
 let seconds = 0;
 let selectedCards = [];
 let matchedPairs = 0;
-let totalPairs = 10; // 我们将选择8对元素
+let totalPairs = 10; // 我们将选择10对元素
 let currentMode = 'normal'; // 'normal' 或 'hard'
 
 // DOM元素
@@ -42,11 +42,12 @@ const finalModeElement = document.getElementById('final-mode');
 const playerNameInput = document.getElementById('player-name');
 const saveScoreBtn = document.getElementById('save-score-btn');
 const leaderboardBody = document.getElementById('leaderboard-body');
-const challengeModeBtn = document.getElementById('challenge-mode-btn');
 
 // 模式选择按钮
-const normalModeBtn = document.getElementById('normal-mode-btn');
-const hardModeBtn = document.getElementById('hard-mode-btn');
+// const normalModeBtn = document.getElementById('normal-mode-btn');
+// const hardModeBtn = document.getElementById('hard-mode-btn');
+// const challengeModeBtn = document.getElementById('challenge-mode-btn');
+const gameModeSelect = document.getElementById('game-mode-select');
 
 // 排行榜选项卡按钮
 const normalLeaderboardBtn = document.getElementById('normal-leaderboard-btn');
@@ -136,6 +137,7 @@ function createGameCards() {
         cardElement.dataset.type = card.type;
         cardElement.dataset.value = card.value;
         cardElement.dataset.elementId = card.elementId;
+        cardElement.dataset.mode = currentMode;
         cardElement.textContent = card.value;
         
         cardElement.addEventListener('click', cardClickHandler);
@@ -262,6 +264,7 @@ function updateLeaderboard(mode) {
 function switchGameMode(mode) {
     if (gameStarted) {
         if (!confirm('切换模式将结束当前游戏，确定要切换吗？')) {
+            gameModeSelect.value = currentMode; // 如果取消切换，恢复之前的选择
             return;
         }
         // 停止当前游戏
@@ -271,16 +274,16 @@ function switchGameMode(mode) {
     currentMode = mode;
     
     // 更新模式按钮状态
-    normalModeBtn.classList.remove('active');
-    hardModeBtn.classList.remove('active');
-    challengeModeBtn.classList.remove('active');
-    if (mode === 'normal') {
-        normalModeBtn.classList.add('active');
-    } else if (mode === 'hard') {
-        hardModeBtn.classList.add('active');
-    } else {
-        challengeModeBtn.classList.add('active');
-    }
+    // normalModeBtn.classList.remove('active');
+    // hardModeBtn.classList.remove('active');
+    // challengeModeBtn.classList.remove('active');
+    // if (mode === 'normal') {
+    //     normalModeBtn.classList.add('active');
+    // } else if (mode === 'hard') {
+    //     hardModeBtn.classList.add('active');
+    // } else {
+    //     challengeModeBtn.classList.add('active');
+    // }
     
     // 重置游戏
     initGame();
@@ -309,19 +312,23 @@ function switchLeaderboard(mode) {
 startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', initGame);
 saveScoreBtn.addEventListener('click', saveScore);
-challengeModeBtn.addEventListener('click', () => switchGameMode('challenge'));
+gameModeSelect.addEventListener('change', (e) => switchGameMode(e.target.value));
 
 // 模式切换事件
 normalModeBtn.addEventListener('click', () => switchGameMode('normal'));
 hardModeBtn.addEventListener('click', () => switchGameMode('hard'));
+challengeModeBtn.addEventListener('click', () => switchGameMode('challenge'));
 
 // 排行榜选项卡事件
 normalLeaderboardBtn.addEventListener('click', () => switchLeaderboard('normal'));
 hardLeaderboardBtn.addEventListener('click', () => switchLeaderboard('hard'));
-challengeModeBtn.addEventListener('click', () => switchGameMode('challenge'));
 challengeModeBtn.addEventListener('click', () => switchLeaderboard('challenge'));
 
 // 初始化游戏
+// document.addEventListener('DOMContentLoaded', () => {
+//     initGame();
+//     updateLeaderboard('normal');
+// });
 document.addEventListener('DOMContentLoaded', () => {
     initGame();
     updateLeaderboard('normal');

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>化学元素配对游戏</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,9 +12,11 @@
         
         <div class="game-mode">
             <span>游戏模式：</span>
-            <button id="normal-mode-btn" class="mode-btn active">普通模式（符号-汉字）</button>
-            <button id="hard-mode-btn" class="mode-btn">困难模式（序号-汉字）</button>
-            <button id="challenge-mode-btn" class="mode-btn">挑战模式（序号-符号）</button>
+            <select id="game-mode-select" class="mode-select">
+                <option value="normal" selected>普通模式（符号-汉字）</option>
+                <option value="hard">困难模式（序号-汉字）</option>
+                <option value="challenge">挑战模式（序号-符号）</option>
+            </select>
         </div>
         
         <div class="game-info">

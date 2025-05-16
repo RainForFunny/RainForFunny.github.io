@@ -14,6 +14,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    width: 95%;
 }
 
 h1 {
@@ -102,11 +103,35 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: black;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.3s, background-color 0.3s;
+}
+
+/* 普通模式的卡片颜色 */
+.card[data-mode="normal"][data-type="symbol"] {
+    background-color: #fcb4bc;
+}
+.card[data-mode="normal"][data-type="name"] {
+    background-color: #bcdcfc;
+}
+
+/* 困难模式的卡片颜色 */
+.card[data-mode="hard"][data-type="number"] {
+    background-color: #fcb4bc;
+}
+.card[data-mode="hard"][data-type="name"] {
+    background-color: #bcdcfc;
+}
+
+/* 挑战模式的卡片颜色 */
+.card[data-mode="challenge"][data-type="symbol"] {
+    background-color: #fcb4bc;
+}
+.card[data-mode="challenge"][data-type="number"] {
+    background-color: #bcdcfc;
 }
 
 .card:hover {
@@ -183,6 +208,19 @@ button:hover {
 .leaderboard-tab.active {
     background-color: #2980b9;
 }
+.mode-select {
+    padding: 8px 16px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.mode-select:hover {
+    border-color: #2980b9;
+}
 
 table {
     width: 100%;
@@ -206,4 +244,62 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #f1f1f1;
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        height: 60px;
+        font-size: 16px;
+    }
+
+    .game-info {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .timer {
+        font-size: 16px;
+    }
+
+    button, .mode-select {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .leaderboard-tabs {
+        flex-wrap: wrap;
+    }
+
+    .leaderboard-tab {
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 8px 5px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        height: 50px;
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .game-board {
+        gap: 5px;
+    }
 }
